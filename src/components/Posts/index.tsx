@@ -59,33 +59,37 @@ export default function Posts({posts}: IProps) {
           allPosts.map((post, index) => {
             if (index === allPosts.length - 4 && !isLoading)
               return (
-                <li key={post.id} ref={setLastElement}>
-                  <Link
-                    href={`/posts/${post.id}`}
-                    style={{
-                      display: 'inline-block',
-                    }}
-                  >
-                    <Image width={128} height={128} alt={post.title} src={post.thumbnailUrl} />
+                <li key={post.id} ref={setLastElement} className={style.item}>
+                  <Link href={`/posts/${post.id}`}>
+                    <Image
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      style={{width: '100%', height: 'auto'}}
+                      alt={post.title}
+                      src={post.thumbnailUrl}
+                    />
                   </Link>
                 </li>
               );
             return (
-              <li key={post.id}>
-                <Link
-                  href={`/posts/${post.id}`}
-                  style={{
-                    display: 'inline-block',
-                  }}
-                >
-                  <Image width={128} height={128} alt={post.title} src={post.thumbnailUrl} />
+              <li key={post.id} className={style.item}>
+                <Link href={`/posts/${post.id}`}>
+                  <Image
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{width: '100%', height: 'auto'}}
+                    alt={post.title}
+                    src={post.thumbnailUrl}
+                  />
                 </Link>
               </li>
             );
           })}
         {allPosts.length === 0 && <div>Публикации не найдены</div>}
       </ul>
-      {isLoading && <p>loading...</p>}
+      {isLoading && <p className={style.loading}>loading...</p>}
     </>
   );
 }

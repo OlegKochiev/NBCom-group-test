@@ -5,4 +5,6 @@ export const URL = {
   },
 };
 
+export const DEFAULT_EMAIL = 'qwert@gmail.com';
+
 export const POSTS_LIMIT = 18;
