@@ -14,7 +14,6 @@ export default function Posts({posts}: IProps) {
   const [page, setPage] = useState(2);
   const [isLoading, setIsLoading] = useState(true);
   const [lastElement, setLastElement] = useState<HTMLLIElement | null>(null);
-  const elemRef = useRef<HTMLLIElement | null>(null);
 
   let observer = useRef<IntersectionObserver | null>(null);
 
@@ -41,7 +40,7 @@ export default function Posts({posts}: IProps) {
   }, [page]);
 
   useEffect(() => {
-    const currentElement = elemRef.current;
+    const currentElement = lastElement;
     const currentObserver = observer.current;
     if (currentElement && currentObserver) {
       currentObserver.observe(currentElement);
@@ -51,7 +50,7 @@ export default function Posts({posts}: IProps) {
         currentObserver.unobserve(currentElement);
       }
     };
-  }, [elemRef.current]);
+  }, [lastElement]);
 
   return (
     <>
@@ -60,7 +59,7 @@ export default function Posts({posts}: IProps) {
           allPosts.map((post, index) => {
             if (index === allPosts.length - 4 && !isLoading)
               return (
-                <li key={post.id} ref={elemRef}>
+                <li key={post.id} ref={setLastElement}>
                   <Link
                     href={`/posts/${post.id}`}
                     style={{
