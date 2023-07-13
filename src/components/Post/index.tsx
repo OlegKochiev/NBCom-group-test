@@ -30,11 +30,13 @@ export default function Post({post, comments}: IProps) {
     formData.delete('comments');
   };
 
+  const allComments = [...comments, ...storedComments.filter((comment) => comment.postId === post.id)];
+
   return (
     <>
       <Image src={post.url} alt={post.title} width={0} height={0} style={{width: '100%', height: 'auto'}} />
       <div className={style.commentsContainer}>
-        {[...comments, ...storedComments].map(({id, email, body}) => (
+        {allComments.map(({id, email, body}) => (
           <Comment key={id} author={email} body={body} />
         ))}
         <form className={style.form} onSubmit={handleSubmit}>

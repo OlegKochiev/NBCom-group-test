@@ -36,3 +36,40 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+---
+
+# Тестовое задание для NBCom Group
+
+## Краткое описание:
+
+Разработать мини-аналог Instagram – небольшое одностраничное веб-приложение, состоящее из сетки миниатюр изображений, при нажатии на каждое из которых, должен показываться оригинал изображения, а также список комментариев к нему.
+
+По умолчанию, на странице должно выводиться не более ~21 изображения, остальные должны подгружаться по мере прокрутки страницы.
+Веб-приложение должно быть адаптивно и приемлимо отображаться на мобильных устройствах размера 425px и ниже. (Десктоп и планшет делать необязательно)
+
+Изображния получаем отсюда – https://jsonplaceholder.typicode.com/photos
+Комментарии для каждого изображения отсюда – https://jsonplaceholder.typicode.com/comments?postId={id изображения}
+
+Дополнительно: Добавьте возможность оставлять комментарии любым возможным способом (jsonplaceholder не позволяет добавлять данные)
+
+## Используемые библиотеки/технологии:
+
+- React + NextJS, ваше веб-приложение должно рендериться на сервере (Server-side Rendering)
+- TypeScript
+- AntDesign
+- Redux/Redux Saga - при необходимости
+- Styled Components - по желанию
+- Всё что угодно, что вам потребуется
+- Без библиотек по скроллам
+
+## Для запуска frontend в режиме development:
+
+1. Перейти в папку с проектом
+2. Установить все зависимости с помощью команды `npm install`
+3. Запустить проект с помощью команды `npm run dev`
+4. Откройте браузер по адресу [http://localhost:3000](http://localhost:3000)
+
+## Дополнительные возможности:
+
+### 1. Собрать build приложения для production - команда `npm run build`
