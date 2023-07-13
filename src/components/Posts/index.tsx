@@ -25,8 +25,6 @@ export default function Posts({posts}: IProps) {
   };
 
   useEffect(() => {
-    console.log('изменился элемент');
-
     observer.current = new IntersectionObserver((entries) => {
       const first = entries[0];
       if (first.isIntersecting) {
