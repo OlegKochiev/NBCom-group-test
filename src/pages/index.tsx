@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-
+import style from './../styles/home.module.css';
 export default function Home() {
   return (
     <>
@@ -10,8 +10,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <Link href={'/posts'}>Посты</Link>
+      <main className={style.container}>
+        <Link href={'/posts'} className={style.link}>
+          Посты
+        </Link>
       </main>
     </>
   );
