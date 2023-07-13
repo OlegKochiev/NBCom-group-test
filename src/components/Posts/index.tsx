@@ -1,47 +1,92 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Image from 'next/image';
-import {IPost} from '@/types/types';
-import {URL} from '@/constants/constants';
-
-import style from './style.module.css';
 import Link from 'next/link';
+import {getPosts} from '@/utils/services/jph';
+import {IPost} from '@/types/types';
+import style from './style.module.css';
 
 interface IProps {
   posts: IPost[];
 }
 
-const loadMorePosts = async (page: Number) => {
-  const response = await fetch(`${URL.JPH.POSTS}?_page=${page}&_limit=27`);
-  const posts = await response.json();
-  return posts as IPost[];
-};
-
 export default function Posts({posts}: IProps) {
   const [allPosts, setAllPosts] = useState(posts);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
+  const [isLoading, setIsLoading] = useState(true);
+  const [lastElement, setLastElement] = useState<HTMLLIElement | null>(null);
+  const elemRef = useRef<HTMLLIElement | null>(null);
 
-  const handleScroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
-    setPage(page + 1);
-    loadMorePosts(page + 1).then((posts) => {
-      setAllPosts([...allPosts, ...posts]);
-    });
+  let observer = useRef<IntersectionObserver | null>(null);
+
+  const addPosts = async () => {
+    setIsLoading(true);
+    const posts = await getPosts(page);
+    if (posts) setAllPosts([...allPosts, ...posts]);
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    console.log('изменился элемент');
+
+    observer.current = new IntersectionObserver((entries) => {
+      const first = entries[0];
+      if (first.isIntersecting) {
+        setPage((prev) => prev + 1);
+      }
+    });
   }, []);
 
+  useEffect(() => {
+    addPosts();
+  }, [page]);
+
+  useEffect(() => {
+    const currentElement = elemRef.current;
+    const currentObserver = observer.current;
+    if (currentElement && currentObserver) {
+      currentObserver.observe(currentElement);
+    }
+    return () => {
+      if (currentElement && currentObserver) {
+        currentObserver.unobserve(currentElement);
+      }
+    };
+  }, [elemRef.current]);
+
   return (
-    <ul className={style.list}>
-      {allPosts.map((post) => (
-        <li key={post.id}>
-          <Link href={`/posts/${post.id}`}>
-            <Image width={128} height={128} alt={post.title} src={post.thumbnailUrl} />
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className={style.list}>
+        {allPosts.length > 0 &&
+          allPosts.map((post, index) => {
+            if (index === allPosts.length - 4 && !isLoading)
+              return (
+                <li key={post.id} ref={elemRef}>
+                  <Link
+                    href={`/posts/${post.id}`}
+                    style={{
+                      display: 'inline-block',
+                    }}
+                  >
+                    <Image width={128} height={128} alt={post.title} src={post.thumbnailUrl} />
+                  </Link>
+                </li>
+              );
+            return (
+              <li key={post.id}>
+                <Link
+                  href={`/posts/${post.id}`}
+                  style={{
+                    display: 'inline-block',
+                  }}
+                >
+                  <Image width={128} height={128} alt={post.title} src={post.thumbnailUrl} />
+                </Link>
+              </li>
+            );
+          })}
+        {allPosts.length === 0 && <div>Публикации не найдены</div>}
+      </ul>
+      {isLoading && <p>loading...</p>}
+    </>
   );
 }

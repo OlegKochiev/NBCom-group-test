@@ -5,4 +5,4 @@ export const URL = {
   },
 };
 
-export const POSTS_LIMIT = 27;
+export const POSTS_LIMIT = 18;

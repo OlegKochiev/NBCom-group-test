@@ -1,11 +1,11 @@
 import React from 'react';
 import Posts from '@/components/Posts';
 import {IPost} from '@/types/types';
-import {URL} from '@/constants/constants';
+import {getPosts} from '@/utils/services/jph';
 
 export async function getServerSideProps() {
-  const response = await fetch(`${URL.JPH.POSTS}?_page=1&_limit=27`);
-  const posts = await response.json();
+  const initialPage = 1;
+  const posts = await getPosts(initialPage);
   return {
     props: {
       posts,

@@ -27,6 +27,9 @@ export default function Post({post, comments}: IProps) {
         {comments.map(({id, email, body}) => (
           <Comment key={id} author={email} body={body} />
         ))}
+        <form>
+          <input type="text"></input>
+        </form>
       </div>
     </>
   );
