@@ -40,7 +40,7 @@ export default function Post({post, comments}: IProps) {
           <Comment key={id} author={email} body={body} />
         ))}
         <form className={style.form} onSubmit={handleSubmit}>
-          <label>
+          <label className={style.label}>
             <input type="text" className={style.input} name="comment"></input>
           </label>
           <button type="submit" className={style.button}>
