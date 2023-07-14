@@ -50,28 +50,16 @@ export default function Posts({posts}: IProps) {
     };
   }, [lastElement]);
 
+  const cuttedPosts = allPosts.length > 150 ? allPosts.slice(-100, allPosts.length) : allPosts;
+  const isScrollBottom = (index: number) => (index === cuttedPosts.length - 1 && !isLoading ? true : false);
+
   return (
     <>
       <ul className={style.list}>
-        {allPosts.length > 0 &&
-          allPosts.map((post, index) => {
-            if (index === allPosts.length - 4 && !isLoading)
-              return (
-                <li key={post.id} ref={setLastElement} className={style.item}>
-                  <Link href={`/posts/${post.id}`}>
-                    <Image
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{width: '100%', height: 'auto'}}
-                      alt={post.title}
-                      src={post.thumbnailUrl}
-                    />
-                  </Link>
-                </li>
-              );
+        {cuttedPosts.length > 0 &&
+          cuttedPosts.map((post, index) => {
             return (
-              <li key={post.id} className={style.item}>
+              <li key={post.id} ref={isScrollBottom(index) ? setLastElement : null} className={style.item}>
                 <Link href={`/posts/${post.id}`}>
                   <Image
                     width={0}
@@ -85,9 +73,9 @@ export default function Posts({posts}: IProps) {
               </li>
             );
           })}
-        {allPosts.length === 0 && <div>Публикации не найдены</div>}
+        {cuttedPosts.length === 0 && <div>Публикации не найдены</div>}
       </ul>
-      {isLoading && <p className={style.loading}>loading...</p>}
+      {isLoading && <p className={style.loading}>Идет загрузка постов...</p>}
     </>
   );
 }

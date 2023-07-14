@@ -8,10 +8,10 @@ interface IProps {
 
 export default function Comment({author, body}: IProps) {
   return (
-    <div>
+    <>
       <p className={style.comment}>
         <span className={style.author}> {author}</span> {body}
       </p>
-    </div>
+    </>
   );
 }

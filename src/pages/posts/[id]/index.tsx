@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Post from '@/components/Post';
 import {IComment, IPost} from '@/types/types';
 import {getComments, getPost} from '@/utils/services/jph';
+import style from '@/styles/post.module.css';
 
 interface IParams {
   id?: string;
@@ -28,7 +29,7 @@ interface IProps {
 export default function PostsPage({post, comments}: IProps) {
   if (!post) return <div>Пост не найден</div>;
   return (
-    <div>
+    <div className={style.mobileContainer}>
       <Header title={post.title} />
       <Post post={post} comments={comments} />
     </div>

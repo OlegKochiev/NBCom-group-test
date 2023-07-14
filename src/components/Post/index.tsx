@@ -17,8 +17,8 @@ export default function Post({post, comments}: IProps) {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const text = formData.get('comment') as string;
-    if (!text) return;
+    const text = formData.get('commentInput') as string;
+    if (!text.trim()) return;
     const newComment = {
       id: Number(new Date()),
       email: DEFAULT_EMAIL,
@@ -27,27 +27,31 @@ export default function Post({post, comments}: IProps) {
     };
     formData.set('comment', '');
     setStoredComments([...storedComments, newComment]);
-    formData.delete('comments');
+    e.currentTarget.reset();
   };
 
-  const allComments = [...comments, ...storedComments.filter((comment) => comment.postId === post.id)];
+  const commentsFilterdByPostID = [...comments, ...storedComments.filter((comment) => comment.postId === post.id)];
 
   return (
-    <>
+    <main className={style.mobileContainer}>
       <Image src={post.url} alt={post.title} width={0} height={0} style={{width: '100%', height: 'auto'}} />
       <div className={style.commentsContainer}>
-        {allComments.map(({id, email, body}) => (
-          <Comment key={id} author={email} body={body} />
-        ))}
+        <ul className={style.list}>
+          {commentsFilterdByPostID.map(({id, email, body}) => (
+            <li key={id} className={style.item}>
+              <Comment author={email} body={body} />
+            </li>
+          ))}
+        </ul>
         <form className={style.form} onSubmit={handleSubmit}>
           <label className={style.label}>
-            <input type="text" className={style.input} name="comment"></input>
+            <input placeholder="Комментарий.." type="text" className={style.input} name="commentInput" />
           </label>
           <button type="submit" className={style.button}>
             Сохранить
           </button>
         </form>
       </div>
-    </>
+    </main>
   );
 }

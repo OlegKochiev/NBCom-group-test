@@ -8,10 +8,10 @@ interface IProps {
 
 export default function Header({title}: IProps) {
   return (
-    <div className={style.header}>
+    <header className={style.header}>
       <GoBackButton />
       <p className={style.title}>{title}</p>
       <span />
-    </div>
+    </header>
   );
 }
