@@ -34,7 +34,13 @@ export default function Post({post, comments}: IProps) {
 
   return (
     <main className={style.mobileContainer}>
-      <Image src={post.url} alt={post.title} width={0} height={0} style={{width: '100%', height: 'auto'}} />
+      <Image
+        src={post.url}
+        alt={post.title}
+        width={0}
+        height={0}
+        style={{width: '100%', height: '100vw', maxHeight: '425px'}}
+      />
       <div className={style.commentsContainer}>
         <ul className={style.list}>
           {commentsFilterdByPostID.map(({id, email, body}) => (
