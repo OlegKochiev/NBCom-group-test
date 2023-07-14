@@ -51,7 +51,13 @@ export default function Post({post, comments}: IProps) {
         </ul>
         <form className={style.form} onSubmit={handleSubmit}>
           <label className={style.label}>
-            <input placeholder="Комментарий.." type="text" className={style.input} name="commentInput" />
+            <input
+              placeholder="Комментарий.."
+              type="text"
+              className={style.input}
+              name="commentInput"
+              autoComplete="off"
+            />
           </label>
           <button type="submit" className={style.button}>
             Сохранить
